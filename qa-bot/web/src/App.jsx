@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import RunList from './components/RunList.jsx';
 import MetricsPanel from './components/MetricsPanel.jsx';
+import RunResponsePanel from './components/RunResponsePanel.jsx';
 
 async function fetchRuns() {
   const response = await fetch('/api/runs');
@@ -44,24 +44,24 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <h1>QA Bot Dashboard</h1>
-      <p>Track automated QA runs and the quality program’s health.</p>
-
-      <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2>Recent runs</h2>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button type="button" onClick={loadRuns}>
-              Refresh Runs
-            </button>
-            <button type="button" onClick={loadMetrics}>
-              Refresh Metrics
-            </button>
-          </div>
+      <div className="hero">
+        <div>
+          <p className="eyebrow">QA Command Center</p>
+          <h1>QA Bot Dashboard</h1>
+          <p>Visualize runs, AI insights, and quality signals in one place.</p>
         </div>
-        {runError && <p style={{ color: 'tomato' }}>{runError}</p>}
-        <RunList runs={runs} />
+        <div className="hero-actions">
+          <button type="button" onClick={loadRuns}>
+            Refresh Runs
+          </button>
+          <button type="button" onClick={loadMetrics}>
+            Refresh Metrics
+          </button>
+        </div>
       </div>
+
+      {runError && <p style={{ color: 'tomato' }}>{runError}</p>}
+      <RunResponsePanel runs={runs} />
 
       {metricsError && <p style={{ color: 'tomato', marginTop: '1rem' }}>{metricsError}</p>}
       <MetricsPanel metrics={metricsData?.metrics} snapshots={metricsData?.snapshots} />
