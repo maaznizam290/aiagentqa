@@ -1,0 +1,36 @@
+{
+  "name": "qa-bot",
+  "version": "1.0.0",
+  "description": "End-to-end QA bot with backend orchestrator, runner, AI layer, and dashboard",
+  "type": "module",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "node backend/server.js",
+    "worker": "node backend/worker.js",
+    "runner:playwright": "node runner/playwright-runner.js",
+    "db:migrate": "node db/index.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "npm run lint && echo \"Add integration tests under runner\""
+  },
+  "keywords": [
+    "qa",
+    "automation",
+    "playwright"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "playwright": "^1.56.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^9.1.2",
+    "globals": "^15.15.0",
+    "prettier": "^3.6.2"
+  }
+}

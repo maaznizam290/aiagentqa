@@ -1,0 +1,72 @@
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+  color: #111827;
+  background-color: #f4f6fb;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 2rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+}
+
+.run-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.run-list-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9fafb;
+}
+
+.run-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.status-pill {
+  border-radius: 999px;
+  padding: 0.15rem 0.75rem;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.status-pill.passed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pill.failed {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.status-pill.pending,
+.status-pill.in_progress {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
