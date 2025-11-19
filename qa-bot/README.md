@@ -1,6 +1,13 @@
 # QA Bot
 
-Monorepo scaffolding for a quality-assurance bot that schedules automated runs, captures logs in SQLite, summarizes results with an AI helper, and exposes a minimal React dashboard.
+QA Bot is an opinionated starter kit for continuous, AI-assisted quality automation. It combines a Node.js backend for scheduling and orchestration, a Playwright-based runner for executing browser suites, SQLite for durable run history and fix suggestions, and a lightweight React dashboard for visibility. The goal is to go from “there is a flaky regression somewhere” to “here’s the failing selector, likely root cause, and candidate fix” with as little manual triage as possible.
+
+Key ideas:
+
+- Treat QA like CI: runs are queued, executed in clean workspaces, and logged immutably.
+- Parse test artifacts (JSON reports, screenshots, DOM snapshots) to extract machine-readable failure signals.
+- Use an LLM to draft fix suggestions, but require human approval before applying changes.
+- Keep everything transparent—logs and suggestions live in SQLite and can be surfaced in any UI or workflow tool.
 
 ## Structure
 
@@ -52,6 +59,13 @@ Set the following variables as needed:
 - `npm run lint` / `npm run format` use ESLint + Prettier (repo root).
 - `web/` contains its own `package.json` for dashboard dependencies.
 - CI builds lint, backend scripts, and the dashboard bundle.
+
+## Roadmap Ideas
+
+- Add an “Apply Fix” flow that checks out the repo, edits the suggested test file, runs targeted Playwright suites, and opens a GitHub PR upon success.
+- Extend the dashboard with approval controls so reviewers can promote suggestions from `suggested` → `approved` → `applied`.
+- Plug in alternative runners (e.g., Cypress) via the same interface used by `runner/playwright-runner.js`.
+- Stream run events to Slack/Teams or create GitHub issues automatically when blocking regressions are detected.
 
 ## Playwright Runner Workflow
 
