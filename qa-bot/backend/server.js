@@ -5,6 +5,8 @@ import {
   logRunStart,
   getRecentRuns,
   getRunById,
+  computeMetrics,
+  getMetricsSnapshots,
 } from '../db/index.js';
 
 const app = express();
@@ -51,6 +53,18 @@ router.post('/runs', async (req, res, next) => {
 
     const runId = await logRunStart({ targetUrl, runner });
     res.status(201).json({ id: runId, targetUrl, runner });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/metrics', async (_req, res, next) => {
+  try {
+    const [metrics, snapshots] = await Promise.all([
+      computeMetrics({}),
+      getMetricsSnapshots(50),
+    ]);
+    res.json({ metrics, snapshots });
   } catch (error) {
     next(error);
   }

@@ -53,12 +53,20 @@ Set the following variables as needed:
 - `PLAYWRIGHT_PARSE_ALWAYS` — set to `1` to parse reports even for passing runs.
 - `PLAYWRIGHT_ATTACHMENT_LIMIT_BYTES` — cap (in bytes) for inlined attachment data (default 5 MB).
 - `ENABLE_LLM_FIX_SUGGESTIONS` — set to `1` to have the worker call the LLM for fix suggestions on each failure.
+- `METRICS_PASSRATE_WINDOW` — number of runs to compare when calculating before/after pass rates (default `10`).
 
 ## Tooling
 
 - `npm run lint` / `npm run format` use ESLint + Prettier (repo root).
 - `web/` contains its own `package.json` for dashboard dependencies.
 - CI builds lint, backend scripts, and the dashboard bundle.
+
+## Observability & Metrics
+
+- Every completed run triggers a metrics snapshot recorded in SQLite (`metrics_snapshots` table) capturing failures seen, fix counts, pass-rate deltas, and average time-to-fix (from suggestion creation → applied).
+- The backend exposes `/api/metrics`, which returns the current aggregate plus the most recent 50 snapshots for charting/analysis.
+- The React dashboard now includes an observability card with summary tiles and an area chart (powered by `recharts`) to visualize pass-rate before/after recent interventions.
+- Suggestion lifecycle metrics (suggested vs. applied) come from the `suggestions` table. Update statuses via `updateSuggestionStatus` (e.g., `approved`, `applied`) to keep time-to-fix accurate.
 
 ## Roadmap Ideas
 

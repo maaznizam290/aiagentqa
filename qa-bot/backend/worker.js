@@ -5,6 +5,7 @@ import {
   markRunInProgress,
   logRunFinish,
   saveFixSuggestion,
+  recordMetricsSnapshotFromCurrent,
 } from '../db/index.js';
 import { runRepositoryTests } from '../runner/playwright-runner.js';
 import { diagnoseFailure } from '../ai/llmClient.js';
@@ -38,6 +39,8 @@ async function processPendingRuns() {
       if (shouldDiagnoseFailures()) {
         await suggestFixesForRun({ runId: run.id, result });
       }
+
+      await captureMetricsSnapshot();
     }
   } catch (error) {
     console.error('[worker] Failed to process runs', error);
@@ -76,6 +79,14 @@ async function suggestFixesForRun({ runId, result }) {
         error,
       );
     }
+  }
+}
+
+async function captureMetricsSnapshot() {
+  try {
+    await recordMetricsSnapshotFromCurrent();
+  } catch (error) {
+    console.error('[worker] Failed to record metrics snapshot', error);
   }
 }
 
